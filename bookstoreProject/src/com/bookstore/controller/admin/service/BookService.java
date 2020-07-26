@@ -138,7 +138,7 @@ public class BookService {
 		Book existBook=bookDao.get(bookid);
 		Book bookByTitle=bookDao.findByTitle(title);
 		
-		if(!existBook.equals(bookByTitle) ){
+		if(bookByTitle!=null && !existBook.equals(bookByTitle) ){
 			String message="Could not update a book with name "+title+" already exist.";
 			listBook(message);
 			return;
@@ -185,10 +185,16 @@ public class BookService {
 		Book updatedBook=bookDao.update(newbook);
 		
 		if(updatedBook.getBookId()>0){
-			String message="A new book created successfully.";
-			request.setAttribute("message", message);
+			String message="book updated successfully.";
 			listBook(message);
 		}
+	}
+
+	public void deleteBook() throws ServletException, IOException {
+		Integer bookId=Integer.parseInt(request.getParameter("id"));
+		bookDao.delete(bookId);
+		String message="Book has been deleted successfully.";
+		listBook(message);
 	}
 	
 		
